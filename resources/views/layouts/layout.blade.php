@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
-    <title>{{ (!empty($meta->metas[$meta->locale]->title) ? $meta->metas[$meta->locale]->title : (!empty($meta->metas['en']->title) ? $meta->metas['en']->title : 'Tarot Academy')) }}</title>
+    <title>{{ (!empty($meta->metas[$meta->locale]->title) ? $meta->metas[$meta->locale]->title : (!empty($meta->metas['en']->title) ? $meta->metas['en']->title : 'SFC.CY')) }}</title>
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
@@ -26,15 +26,15 @@
     <meta name="theme-color" content="#ffffff">
     <meta name="description" content="{{ (!empty($meta->metas[$meta->locale]->description) ? $meta->metas[$meta->locale]->description : (!empty($meta->metas['en']->description) ? $meta->metas['en']->description : '')) }}">
     <meta name="keywords" content="{{ (!empty($meta->metas[$meta->locale]->keywords) ? $meta->metas[$meta->locale]->keywords : (!empty($meta->metas['en']->keywords) ? $meta->metas['en']->keywords : '')) }}">
-    <meta property="og:title" content="{{ (!empty($meta->metas[$meta->locale]->title) ? $meta->metas[$meta->locale]->title : (!empty($meta->metas['en']->title) ? $meta->metas['en']->title : 'Tarot Academy')) }}">
+    <meta property="og:title" content="{{ (!empty($meta->metas[$meta->locale]->title) ? $meta->metas[$meta->locale]->title : (!empty($meta->metas['en']->title) ? $meta->metas['en']->title : 'SFC.CY')) }}">
     <meta property="og:description" content="{{ (!empty($meta->metas[$meta->locale]->description) ? $meta->metas[$meta->locale]->description : (!empty($meta->metas['en']->description) ? $meta->metas['en']->description : '')) }}">
     <meta property="og:locale" content="{{ (!empty($meta->locale) ? $meta->locale : 'en') }}">
     <meta property="og:type" content="website">
     <meta property="og:image" content="{{ (!empty($meta->image) ? $meta->image : 'https://tarot.ac/assets/img/main_banner.png') }}">
     <meta property="og:url" content="{{ str_replace('http://', 'https://', url()->current()) }}">
-    <meta property="og:site_name" content="{{ (!empty($meta->metas[$meta->locale]->name) ? $meta->metas[$meta->locale]->name : (!empty($meta->metas['en']->name) ? $meta->metas['en']->name : 'Tarot Academy')) }}">
+    <meta property="og:site_name" content="{{ (!empty($meta->metas[$meta->locale]->name) ? $meta->metas[$meta->locale]->name : (!empty($meta->metas['en']->name) ? $meta->metas['en']->name : 'SFC.CY')) }}">
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="{{ (!empty($meta->metas[$meta->locale]->title) ? $meta->metas[$meta->locale]->title : (!empty($meta->metas['en']->title) ? $meta->metas['en']->title : 'Tarot Academy')) }}">
+    <meta property="twitter:title" content="{{ (!empty($meta->metas[$meta->locale]->title) ? $meta->metas[$meta->locale]->title : (!empty($meta->metas['en']->title) ? $meta->metas['en']->title : 'SFC.CY')) }}">
     <meta property="twitter:description" content="{{ (!empty($meta->metas[$meta->locale]->description) ? $meta->metas[$meta->locale]->description : (!empty($meta->metas['en']->description) ? $meta->metas['en']->description : '')) }}">
     <meta property="twitter:image" content="{{ (!empty($meta->image) ? $meta->image : 'https://tarot.ac/assets/img/main_banner.png') }}">
     {{--<meta name="robots" content="noindex, nofollow">--}}
@@ -69,9 +69,14 @@
                 <a href="#" class="text-sm/6 font-semibold text-white">Events</a>
                 <a href="#" class="text-sm/6 font-semibold text-white">Members</a>
                 <a href="#" class="text-sm/6 font-semibold text-white">Resources</a>
+                <a @click="languagePopup = true" href="javascript:void(0);" class="text-sm/6 font-semibold text-white"><img class="mr-1 rtl:ml-1 rtl:mr-0 inline-block" src="/assets/flags/language/{{ $meta->locale }}.svg" width="24"> {{ strtoupper(!empty($meta->locale) ? $meta->locale : 'en') }} ({{ (!empty($meta->language) ? $meta->language : '') }})</a>
             </div>
             <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-                <a href="#" class="text-sm/6 font-semibold text-white">Log in <span aria-hidden="true">&rarr;</span></a>
+                @if (Auth::check())
+                    <a href="#" class="text-sm/6 font-semibold text-white">Dashboard</a>
+                @else
+                    <a href="{{ route('login') }}" class="text-sm/6 font-semibold text-white">Log in <span aria-hidden="true">&rarr;</span></a>
+                @endif
             </div>
         </nav>
         <el-dialog>
@@ -95,9 +100,14 @@
                                     <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Events</a>
                                     <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Members</a>
                                     <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Resources</a>
+                                    <a @click="languagePopup = true" href="javascript:void(0);" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"><img class="mr-1 rtl:ml-1 rtl:mr-0 inline-block" src="/assets/flags/language/{{ $meta->locale }}.svg" width="24"> {{ strtoupper(!empty($meta->locale) ? $meta->locale : 'en') }} ({{ (!empty($meta->language) ? $meta->language : '') }})</a>
                                 </div>
                                 <div class="py-6">
-                                    <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white hover:bg-white/5">Log in</a>
+                                    @if (Auth::check())
+                                        <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white hover:bg-white/5">Dashboard</a>
+                                    @else
+                                        <a href="{{ route('login') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white hover:bg-white/5">Log in</a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -111,8 +121,8 @@
         <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
             <div class="flex lg:flex-1">
                 <a href="{{ route('web::index') }}" class="-m-1.5 p-1.5">
-                    <span class="sr-only">{{ (!empty($meta->metas[$meta->locale]->name) ? $meta->metas[$meta->locale]->name : (!empty($meta->metas['en']->name) ? $meta->metas['en']->name : 'Tarot Academy')) }}</span>
-                    <img src="/assets/img/tarot_logo_b.png" alt="{{ (!empty($meta->metas[$meta->locale]->name) ? $meta->metas[$meta->locale]->name : (!empty($meta->metas['en']->name) ? $meta->metas['en']->name : 'Tarot Academy')) }}" class="w-[120px]" />
+                    <span class="sr-only">{{ (!empty($meta->metas[$meta->locale]->name) ? $meta->metas[$meta->locale]->name : (!empty($meta->metas['en']->name) ? $meta->metas['en']->name : 'SFC.CY')) }}</span>
+                    <img src="/assets/img/tarot_logo_b.png" alt="{{ (!empty($meta->metas[$meta->locale]->name) ? $meta->metas[$meta->locale]->name : (!empty($meta->metas['en']->name) ? $meta->metas['en']->name : 'SFC.CY')) }}" class="w-[120px]" />
                 </a>
             </div>
             <div class="flex lg:hidden">
@@ -144,8 +154,8 @@
             <div class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                 <div class="flex items-center justify-between">
                     <a href="{{ route('web::index') }}" class="-m-1.5 p-1.5">
-                        <span class="sr-only">{{ (!empty($meta->metas[$meta->locale]->name) ? $meta->metas[$meta->locale]->name : (!empty($meta->metas['en']->name) ? $meta->metas['en']->name : 'Tarot Academy')) }}</span>
-                        <img src="/assets/img/tarot_logo_b.png" alt="{{ (!empty($meta->metas[$meta->locale]->name) ? $meta->metas[$meta->locale]->name : (!empty($meta->metas['en']->name) ? $meta->metas['en']->name : 'Tarot Academy')) }}" class="w-[120px]">
+                        <span class="sr-only">{{ (!empty($meta->metas[$meta->locale]->name) ? $meta->metas[$meta->locale]->name : (!empty($meta->metas['en']->name) ? $meta->metas['en']->name : 'SFC.CY')) }}</span>
+                        <img src="/assets/img/tarot_logo_b.png" alt="{{ (!empty($meta->metas[$meta->locale]->name) ? $meta->metas[$meta->locale]->name : (!empty($meta->metas['en']->name) ? $meta->metas['en']->name : 'SFC.CY')) }}" class="w-[120px]">
                     </a>
                     <button @click="mobileMenu = false" type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
                         <span class="sr-only">{{ __('Close menu') }}</span>
@@ -174,7 +184,7 @@
     <main class="isolate">
         @yield('content')
     </main>
-    <footer class="bg-gray-900 mt-16">
+    <footer class="bg-gray-900">
         <div class="mx-auto max-w-7xl px-6 pt-16 pb-8 sm:pt-24 lg:px-8 lg:pt-32">
             <div class="xl:grid xl:grid-cols-3 xl:gap-8">
                 <img class="w-[120px]" src="/assets/images/logo.png" alt="SFC.CY" />
@@ -183,20 +193,22 @@
                         <div>
                             <h3 class="text-sm/6 font-semibold text-white">{{ __('Ecosystem') }}</h3>
                             <ul role="list" class="mt-6 space-y-4">
-                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Members') }}</a></li>
-                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Events') }}</a></li>
-                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Shops') }}</a></li>
-                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Services') }}</a></li>
-                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Courses') }}</a></li>
+                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Investors') }}</a></li>
+                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Event Organizers') }}</a></li>
+                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Infrastructure') }}</a></li>
+                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Communities') }}</a></li>
+                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Government') }}</a></li>
                                 <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Venues') }}</a></li>
                             </ul>
                         </div>
                         <div class="mt-10 md:mt-0">
                             <h3 class="text-sm/6 font-semibold text-white">{{ __('Events') }}</h3>
                             <ul role="list" class="mt-6 space-y-4">
-                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Decks') }}</a></li>
-                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Cards') }}</a></li>
-                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Guides') }}</a></li>
+                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Nicosia') }}</a></li>
+                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Limassol') }}</a></li>
+                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Paphos') }}</a></li>
+                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Larnaca') }}</a></li>
+                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Famagusta') }}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -204,17 +216,17 @@
                         <div>
                             <h3 class="text-sm/6 font-semibold text-white">{{ __('Members') }}</h3>
                             <ul role="list" class="mt-6 space-y-4">
-                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Daily Tarot Card') }}</a></li>
-                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Daily Tarot Reading') }}</a></li>
-                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Yes or No Tarot Reading') }}</a></li>
+                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Nicosia') }}</a></li>
+                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Limassol') }}</a></li>
+                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Paphos') }}</a></li>
+                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Larnaca') }}</a></li>
+                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Famagusta') }}</a></li>
                             </ul>
                         </div>
                         <div class="mt-10 md:mt-0">
                             <h3 class="text-sm/6 font-semibold text-white">{{ __('Resources') }}</h3>
                             <ul role="list" class="mt-6 space-y-4">
                                 <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('About') }}</a></li>
-                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Blog') }}</a></li>
-                                <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Affiliate Program') }}</a></li>
                                 <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Partnerships') }}</a></li>
                                 <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Terms of Service') }}</a></li>
                                 <li><a href="#" class="text-sm/6 text-gray-400 hover:text-white">{{ __('Privacy Policy') }}</a></li>
@@ -232,7 +244,7 @@
                     <label for="email-address" class="sr-only">{{ __('Email Address') }}</label>
                     <input type="email" name="email-address" id="email-address" autocomplete="email" required class="w-full min-w-0 rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-gray-700 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus-visible:outline-indigo-500 sm:w-56 sm:text-sm/6" placeholder="{{ __('Enter your email') }}" />
                     <div class="mt-4 sm:mt-0 sm:ml-4 sm:shrink-0">
-                        <button type="submit" class="flex w-full items-center justify-center rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">{{ __('Subscribe') }}</button>
+                        <button type="submit" class="flex w-full items-center justify-center rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-orange-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">{{ __('Subscribe') }}</button>
                     </div>
                 </form>
             </div>
@@ -259,7 +271,7 @@
                         <svg class="size-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><defs><path id="mageThreadsSquare0" fill="currentColor" d="M14 12.31c-.022.42-.117.833-.28 1.22a1.601 1.601 0 0 1-.63.71c-.186.1-.39.165-.6.19a2.37 2.37 0 0 1-.92 0a1.57 1.57 0 0 1-.55-.27a.999.999 0 0 1-.08-1.42a1.49 1.49 0 0 1 .67-.38c.272-.085.555-.125.84-.12c.26-.015.52-.015.78 0c.242.019.482.052.72.1z"/></defs><use href="#mageThreadsSquare0"/><path fill="currentColor" d="M17 2H7a5 5 0 0 0-5 5v10a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5M7.52 14.53A5 5 0 0 0 8.24 16a4 4 0 0 0 1.81 1.39c.447.166.915.274 1.39.32c.466.045.934.045 1.4 0a4.56 4.56 0 0 0 1.57-.41a3.58 3.58 0 0 0 1.39-1.2a2.42 2.42 0 0 0 .33-2.1a2 2 0 0 0-.8-1.09l-.2-.14c0 .09 0 .17-.05.25c-.07.45-.22.882-.44 1.28a2.628 2.628 0 0 1-1.92 1.34a3.3 3.3 0 0 1-1.59-.08A2.55 2.55 0 0 1 10 14.9a2.17 2.17 0 0 1-.61-1.29a2.2 2.2 0 0 1 1-2.12a3.289 3.289 0 0 1 1.2-.49c.423-.07.851-.1 1.28-.09a7.92 7.92 0 0 1 1 .09h.06a2.41 2.41 0 0 0-.27-.78a1.382 1.382 0 0 0-.89-.64a2.3 2.3 0 0 0-1.35 0a1.66 1.66 0 0 0-.79.59v.07l-1-.69v-.07a2.84 2.84 0 0 1 1.77-1.17a3.63 3.63 0 0 1 1.85.08a2.55 2.55 0 0 1 1.55 1.33c.176.359.295.744.35 1.14a3.606 3.606 0 0 1 .05.52l.3.14a4 4 0 0 1 1.22 1c.346.427.573.937.66 1.48c.071.328.095.665.07 1a3.75 3.75 0 0 1-.93 2.25a4.93 4.93 0 0 1-2.7 1.63a8.226 8.226 0 0 1-1.41.17a8 8 0 0 1-1.29-.05a6.319 6.319 0 0 1-2-.58a5.2 5.2 0 0 1-2-1.79a6.75 6.75 0 0 1-.83-1.86c-.134-.495-.231-1-.29-1.51V12c0-.42 0-.84.07-1.26a9.49 9.49 0 0 1 .23-1.41A6.31 6.31 0 0 1 7 7.67a5.09 5.09 0 0 1 2.86-2.35A7.43 7.43 0 0 1 11.2 5a7.61 7.61 0 0 1 1.72 0a6.35 6.35 0 0 1 2 .52a5.17 5.17 0 0 1 2.24 1.9A6.64 6.64 0 0 1 18 9.38l-1.18.32v-.08a5.562 5.562 0 0 0-.58-1.35A4.08 4.08 0 0 0 14 6.52a5.6 5.6 0 0 0-1.52-.29a7.33 7.33 0 0 0-1.15 0a5 5 0 0 0-1.7.48A3.93 3.93 0 0 0 8 8.31a5.76 5.76 0 0 0-.57 1.49a7.89 7.89 0 0 0-.21 1.29a10.38 10.38 0 0 0 0 1.25a8.55 8.55 0 0 0 .3 2.19"/><use href="#mageThreadsSquare0"/></svg>
                     </a>
                 </div>
-                <p class="mt-8 text-sm/6 text-gray-400 md:order-1 md:mt-0">&copy; 2024-<script>document.write(new Date().getFullYear())</script>. {{ (!empty($meta->metas[$meta->locale]->name) ? $meta->metas[$meta->locale]->name : (!empty($meta->metas['en']->name) ? $meta->metas['en']->name : 'Tarot Academy')) }}. {{ __('All rights reserved.') }}</p>
+                <p class="mt-8 text-sm/6 text-gray-400 md:order-1 md:mt-0">&copy; <script>document.write(new Date().getFullYear())</script>. {{ (!empty($meta->metas[$meta->locale]->name) ? $meta->metas[$meta->locale]->name : (!empty($meta->metas['en']->name) ? $meta->metas['en']->name : 'SFC.CY')) }}. {{ __('All rights reserved.') }}</p>
             </div>
         </div>
     </footer>

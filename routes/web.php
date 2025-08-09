@@ -21,4 +21,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function() {
     Route::get('/login/google', [GoogleController::class, 'redirectToGoogle'])->name('auth::google');
     Route::get('/login/google/callback', [GoogleController::class, 'handleGoogleCallback']);
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/terms', [WebController::class, 'terms'])->name('web::terms');
+    Route::get('/privacy', [WebController::class, 'privacy'])->name('web::privacy');
 });

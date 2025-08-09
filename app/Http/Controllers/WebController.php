@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Models\Meta;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class WebController extends Controller
@@ -13,6 +15,10 @@ class WebController extends Controller
         $meta->locale = LaravelLocalization::getCurrentLocale();
         $meta->language = LaravelLocalization::getCurrentLocaleName();
         $meta->languages = LaravelLocalization::getSupportedLocales();
+        $metas = Meta::where('url', Route::currentRouteName())->whereIn('language', ['en', LaravelLocalization::getCurrentLocale()])->get();
+        foreach ($metas as $metaSingle) {
+            $meta->metas[$metaSingle->language] = $metaSingle;
+        }
         return $meta;
     }
 
