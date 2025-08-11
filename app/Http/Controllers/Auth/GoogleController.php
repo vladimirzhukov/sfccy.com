@@ -44,7 +44,23 @@ class GoogleController extends Controller
         try {
             $user = Socialite::driver('google')->stateless()->user();
             $finduser = User::where('google_id', $user->id)->first();
+            $avatar = $user->getAvatar();
             if (!empty($finduser->id)) {
+                if (empty($finduser->img) && !empty($avatar)) {
+                    try {
+                        $file = Http::get($avatar)->body();
+                        $name = Str::random(16) . '.webp';
+                        $manager = new ImageManager(new Driver());
+                        $mainImage = $manager->read($file)->cover(300, 300)->toWebp(85);
+                        $thumbnail = $manager->read($file)->cover(100, 100)->toWebp(80);
+                        Storage::disk('do')->put('sfccy/avatars/' . substr($name, 0, 1) . '/' . substr($name, 0, 2) . '/' . substr($name, 0, 3) . '/' . $name, $mainImage, 'public');
+                        Storage::disk('do')->put('sfccy/avatars/' . substr($name, 0, 1) . '/' . substr($name, 0, 2) . '/' . substr($name, 0, 3) . '/th_' . $name, $thumbnail, 'public');
+                        $finduser->img = $name;
+                        $finduser->save();
+                    } catch (\Exception $e) {
+                        Log::error('Failed to download/process avatar: ' . $e->getMessage());
+                    }
+                }
                 Auth::login($finduser, true);
                 return redirect()->route('app::index');
             } else {
@@ -55,6 +71,21 @@ class GoogleController extends Controller
                         $checkEmail->email_verified_at = date('Y-m-d H:i:s');
                     }
                     $checkEmail->save();
+                    if (empty($checkEmail->img) && !empty($avatar)) {
+                        try {
+                            $file = Http::get($avatar)->body();
+                            $name = Str::random(16) . '.webp';
+                            $manager = new ImageManager(new Driver());
+                            $mainImage = $manager->read($file)->cover(300, 300)->toWebp(85);
+                            $thumbnail = $manager->read($file)->cover(100, 100)->toWebp(80);
+                            Storage::disk('do')->put('sfccy/avatars/' . substr($name, 0, 1) . '/' . substr($name, 0, 2) . '/' . substr($name, 0, 3) . '/' . $name, $mainImage, 'public');
+                            Storage::disk('do')->put('sfccy/avatars/' . substr($name, 0, 1) . '/' . substr($name, 0, 2) . '/' . substr($name, 0, 3) . '/th_' . $name, $thumbnail, 'public');
+                            $checkEmail->img = $name;
+                            $checkEmail->save();
+                        } catch (\Exception $e) {
+                            Log::error('Failed to download/process avatar: ' . $e->getMessage());
+                        }
+                    }
                     Auth::login($checkEmail, true);
                 } else {
                     $newUser = User::create([
@@ -64,7 +95,6 @@ class GoogleController extends Controller
                         'email_verified_at' => date('Y-m-d H:i:s'),
                         'password' => Hash::make(Str::random(8))
                     ]);
-                    $avatar = $user->getAvatar();
                     if (!empty($avatar)) {
                         try {
                             $file = Http::get($avatar)->body();
