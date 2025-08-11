@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\AuthController;
@@ -23,4 +24,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function() {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/terms', [WebController::class, 'terms'])->name('web::terms');
     Route::get('/privacy', [WebController::class, 'privacy'])->name('web::privacy');
+    // Dashboard routes
+    Route::get('/app', [AppController::class, 'index'])->name('app::index')->middleware('auth');
 });

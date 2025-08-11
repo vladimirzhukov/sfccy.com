@@ -113,7 +113,7 @@ class AuthController extends Controller
                     'email' => $user->email,
                     'action_url' => str_replace('http://', 'https://', route('confirm', ['code' => $user->id . 'x' . $confirmation->token])),
                     'login_url' => str_replace('http://', 'https://', route('login')),
-                    'supportemail' => 'support@tarot.ac',
+                    'supportemail' => 'support@sfccy.com',
                     'app_name' => env('APP_NAME'),
                     'title1' => __('auth.signup_email_t1'),
                     'abs1' => __('auth.signup_email_a1'),
@@ -161,11 +161,11 @@ class AuthController extends Controller
         $tags = ['auth', 'welcome'];
 
         $emailParams = (new EmailParams())
-            ->setFrom('info@tarot.ac')
-            ->setFromName('Tarot Academy')
+            ->setFrom('info@sfccy.com')
+            ->setFromName('Startup Founders Community')
             ->setRecipients($recipients)
             ->setSubject(__('auth.signup_email_t1'))
-            ->setTemplateId('v69oxl5y23d4785k')
+            ->setTemplateId('3z0vklojmovg7qrx')
             ->setPersonalization($variables)
             ->setTags($tags);
 
@@ -236,7 +236,7 @@ class AuthController extends Controller
                             'custorer_email' => $user->email,
                             'action_url' => str_replace('http://', 'https://', route('reset', ['code' => $restoreToken])),
                             'login_url' => str_replace('http://', 'https://', route('login')),
-                            'support_email' => 'support@tarot.ac',
+                            'support_email' => 'support@sfccy.com',
                             'app_name' => env('APP_NAME'),
                             'title1' => __('auth.restore_email_t1'),
                             'abs1' => __('auth.restore_email_a1'),
@@ -266,11 +266,11 @@ class AuthController extends Controller
 
                 $recipients = array(new Recipient($user->email, $user->name));
                 $emailParams = (new EmailParams())
-                    ->setFrom('info@tarot.ac')
-                    ->setFromName('Tarot Academy')
+                    ->setFrom('info@sfccy.com')
+                    ->setFromName('Startup Founders Community')
                     ->setRecipients($recipients)
                     ->setSubject('Password Reset Request (Account Security)')
-                    ->setTemplateId('pq3enl6ykqmg2vwr')
+                    ->setTemplateId('0r83ql3j9o0gzw1j')
                     ->setPersonalization($variables)
                     ->setTags($tags);
 
