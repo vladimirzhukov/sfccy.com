@@ -39,8 +39,7 @@ class GoogleController extends Controller
 
     public function handleGoogleCallback()
     {
-        try {
-            dd(Socialite::driver('google')->user());
+        //try {
             $user = Socialite::driver('google')->user();
             $finduser = User::where('google_id', $user->id)->first();
             if (!empty($finduser->id)) {
@@ -79,8 +78,8 @@ class GoogleController extends Controller
                 }
                 return redirect()->route('app::index');
             }
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
+        //} catch (\Exception $e) {
+            //dd($e->getMessage());
+        //}
     }
 }
