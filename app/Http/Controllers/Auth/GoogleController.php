@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -64,15 +66,19 @@ class GoogleController extends Controller
                     ]);
                     $avatar = $user->getAvatar();
                     if (!empty($avatar)) {
-                        $file = $avatar;
-                        $name = Str::random(16) . '.webp';
-                        $manager = new ImageManager(new Driver());
-                        $mainImage = $manager->read($file)->cover(300, 300)->toWebp(85);
-                        $thumbnail = $manager->read($file)->cover(100, 100)->toWebp(80);
-                        Storage::disk('do')->put('sfccy/avatars/' . substr($name, 0, 1) . '/' . substr($name, 0, 2) . '/' . substr($name, 0, 3) . '/' . $name, $mainImage, 'public');
-                        Storage::disk('do')->put('sfccy/avatars/' . substr($name, 0, 1) . '/' . substr($name, 0, 2) . '/' . substr($name, 0, 3) . '/th_' . $name, $thumbnail, 'public');
-                        $newUser->img = $name;
-                        $newUser->save();
+                        try {
+                            $file = Http::get($avatar)->body();
+                            $name = Str::random(16) . '.webp';
+                            $manager = new ImageManager(new Driver());
+                            $mainImage = $manager->read($file)->cover(300, 300)->toWebp(85);
+                            $thumbnail = $manager->read($file)->cover(100, 100)->toWebp(80);
+                            Storage::disk('do')->put('sfccy/avatars/' . substr($name, 0, 1) . '/' . substr($name, 0, 2) . '/' . substr($name, 0, 3) . '/' . $name, $mainImage, 'public');
+                            Storage::disk('do')->put('sfccy/avatars/' . substr($name, 0, 1) . '/' . substr($name, 0, 2) . '/' . substr($name, 0, 3) . '/th_' . $name, $thumbnail, 'public');
+                            $newUser->img = $name;
+                            $newUser->save();
+                        } catch (\Exception $e) {
+                            Log::error('Failed to download/process avatar: ' . $e->getMessage());
+                        }
                     }
                     Auth::login($newUser, true);
                 }
