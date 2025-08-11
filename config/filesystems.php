@@ -60,6 +60,16 @@ return [
             'report' => false,
         ],
 
+        'do' => [
+            'driver' => 's3',
+            'key' => env('DO_SPACES_KEY'),
+            'secret' => env('DO_SPACES_SECRET'),
+            'endpoint' => env('DO_SPACES_ENDPOINT'),
+            'region' => env('DO_SPACES_REGION', 'ams3'),
+            'bucket' => env('DO_SPACES_BUCKET'),
+            'throw' => false,
+        ],
+
     ],
 
     /*
