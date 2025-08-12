@@ -39,6 +39,7 @@
     <meta property="twitter:image" content="{{ (!empty($meta->image) ? $meta->image : 'https://tarot.ac/assets/img/main_banner.png') }}">
     {{--<meta name="robots" content="noindex, nofollow">--}}
     <meta name="robots" content="index, follow">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="canonical" href="{{ str_replace('http://', 'https://', url()->current()) }}">
     @yield('styles')
     @yield('ldbread')
