@@ -73,6 +73,7 @@ class AuthController extends Controller
 
     public function doSignup(Request $request)
     {
+        \Log::info($request->all());
         \Log::info('Session ID: ' . session()->getId());
         \Log::info('CSRF Token from session: ' . session()->token());
         \Log::info('CSRF Token from request: ' . $request->header('X-CSRF-TOKEN'));
