@@ -16,6 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
             \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
             \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class
         ]);
+        $middleware->validateCsrfTokens(except: [
+            '/auth/signup', '/auth/signin', '/auth/forgot',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
