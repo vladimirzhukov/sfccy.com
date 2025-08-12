@@ -26,4 +26,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function() {
     Route::get('/privacy', [WebController::class, 'privacy'])->name('web::privacy');
     // Dashboard routes
     Route::get('/app', [AppController::class, 'index'])->name('app::index')->middleware('auth');
+    Route::get('/debug-session', function() {
+        \Log::info('GET route - Session ID: ' . session()->getId());
+        \Log::info('GET route - CSRF Token: ' . session()->token());
+        return 'Session ID: ' . session()->getId() . '<br>CSRF Token: ' . session()->token();
+    });
 });
