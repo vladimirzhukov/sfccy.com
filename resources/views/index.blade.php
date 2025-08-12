@@ -1,5 +1,34 @@
 @extends('layouts.layout')
 
+@section('ldbread')
+<script type="application/ld+json">
+{
+    "@@context": "https://schema.org",
+    "@@type": "Service",
+    "name": "{{ (!empty($meta->metas[$meta->locale]->name) ? $meta->metas[$meta->locale]->name : (!empty($meta->metas['en']->name) ? $meta->metas['en']->name : 'SFC.CY')) }}",
+    "url": "{{ url()->current() }}",
+    "description": "{{ (!empty($meta->metas[$meta->locale]->description) ? $meta->metas[$meta->locale]->description : (!empty($meta->metas['en']->description) ? $meta->metas['en']->description : '')) }}",
+    "areaServed": "Global",
+    "provider": {
+        "@@type": "Brand",
+        "name": "{{ (!empty($meta->metas[$meta->locale]->name) ? $meta->metas[$meta->locale]->name : (!empty($meta->metas['en']->name) ? $meta->metas['en']->name : 'SFC.CY')) }}"
+    }
+}
+</script>
+<script type="application/ld+json">
+{
+    "@@context": "https://schema.org",
+    "@@type": "BreadcrumbList",
+    "itemListElement": [{
+        "@@type": "ListItem",
+        "position": 1,
+        "name": "{{ __('Home') }}",
+        "item": "{{ url()->current() }}"
+    }]
+}
+</script>
+@endsection
+
 @section('content')
 <div class="relative isolate overflow-hidden pt-14">
     <img src="/assets/images/back.jpg" alt="" class="absolute inset-0 -z-10 size-full object-cover brightness-25" />

@@ -40,4 +40,12 @@ return [
     'signup_email_a10' => '<strong>Building the future together,</strong><br>The Startup Founders Community Cyprus Team',
     'signup_email_a11' => '<i>P.S. Keep an eye on your inbox for weekly event updates, US market opportunities, and exclusive community announcements. Your breakthrough awaits!</i>',
     'signup_email_tx3' => 'All rights reserved.',
+    'validation_email_required' => 'The email field is required.',
+    'validation_email_email' => 'The email must be a valid email address.',
+    'validation_email_unique' => 'The email has already been taken.',
+    'validation_email_max' => 'The email may not be greater than 191 characters.',
+    'validation_password_required' => 'The password field is required.',
+    'validation_password_min' => 'The password must be at least 6 characters.',
+    'validation_password_max' => 'The password may not be greater than 191 characters.',
+    'validation_terms_accepted' => 'You must accept the terms and conditions.',
 ];

@@ -73,11 +73,6 @@ class AuthController extends Controller
 
     public function doSignup(Request $request)
     {
-        \Log::info($request->all());
-        \Log::info('Session ID: ' . session()->getId());
-        \Log::info('CSRF Token from session: ' . session()->token());
-        \Log::info('CSRF Token from request: ' . $request->header('X-CSRF-TOKEN'));
-        \Log::info('Request method: ' . $request->method());
         $request->validate([
             'email' => 'required|email|unique:users|max:191',
             'pass' => 'required|min:6|max:191',
